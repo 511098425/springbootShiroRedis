@@ -1,0 +1,31 @@
+spring:
+    #数据库配置
+    datasource:
+       url: jdbc:mysql://192.168.1.2:3306/shiro?useUnicode=true&characterEncoding=gbk&zeroDateTimeBehavior=convertToNull
+       username: root
+       password: root
+       driver-class-name: com.mysql.jdbc.Driver
+    #redis配置  
+    redis:
+      host: 192.168.1.3
+      database: 1
+      port: 6379
+      password:
+      timeout: 60000 
+      pool:
+        max-active: -1
+        max-wait: -1
+        max-idle: 500
+    mvc:
+      view:
+        prefix: /WEB-INF/jsp/
+        suffix: .jsp
+        
+server:
+  #tomcat配置        
+  tomcat:
+    max-threads: 800
+    uri-encoding: UTF-8
+  port: 80 
+  
+  
