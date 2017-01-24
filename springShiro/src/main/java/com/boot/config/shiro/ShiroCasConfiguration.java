@@ -92,7 +92,7 @@ public class ShiroCasConfiguration {
 		//注入缓存管理器(用户授权/认证信息Cache)
 		dwsm.setCacheManager(cacheManager);
 		//session共享管理器
-		dwsm.setSessionManager(sessionManager);
+//		dwsm.setSessionManager(sessionManager);
 		//注入记住我管理器
 //		dwsm.setRememberMeManager(rememberMeManager());
 		// 指定 SubjectFactory

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.boot.aop.annotation.SystemControllerLog;
 import com.boot.entity.SysUser;
 import com.boot.service.UserService;
 
@@ -57,6 +58,7 @@ public class LoginController {
     }
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@SystemControllerLog(description="用户登录")
 	public String login(SysUser user, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 
 		String username = user.getUsername();
@@ -93,6 +95,7 @@ public class LoginController {
 		if (currentUser.isAuthenticated()) {
 			log.info("用户[" + username + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
 			request.getSession().setAttribute(username, request.getRequestedSessionId());
+			log.info("当前用户的sessionID："+request.getSession().getId());
 			return "redirect:/user";
 		} else {
 			token.clear();
@@ -101,6 +104,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@SystemControllerLog(description="用户退出")
 	public String logout(RedirectAttributes redirectAttributes) {
 		// 使用权限管理工具进行用户的退出，跳出登录，给出提示信息
 		SecurityUtils.getSubject().logout();
@@ -115,6 +119,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/user")
+	@SystemControllerLog(description="查询用户")
 	public String getUserList(Map<String, Object> model) {
 		model.put("userList", userService.queryUser());
 		return "user";
@@ -122,6 +127,7 @@ public class LoginController {
 
 	@RequestMapping("/user/edit/{userid}")
 	@RequiresPermissions("user:edit")
+	@SystemControllerLog(description="修改用户")
 	public String getUserList(@PathVariable int userid) {
 		log.info("------进入用户信息修改-------");
 		return "user_edit";

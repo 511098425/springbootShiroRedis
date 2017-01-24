@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.boot.aop.annotation.SystemServiceLog;
 import com.boot.entity.SysUser;
 import com.boot.mapper.UserMapper;
 
@@ -28,6 +29,7 @@ public class UserService {
 	private UserMapper userMapper;
 	
 	
+	@SystemServiceLog(description="查询用户")
 	public List<SysUser>queryUser(){
 		return userMapper.selectAll();
 	}

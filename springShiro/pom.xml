@@ -6,7 +6,6 @@
 	<groupId>com.boot</groupId>
 	<artifactId>springShiro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>springShiro</name>
 	<description>spring集成shiro+cas单点认证</description>
@@ -14,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.8.RELEASE</version>
+		<version>1.4.0.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -31,7 +30,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+		<dependency>  
+            <groupId>org.springframework.boot</groupId>  
+            <artifactId>spring-boot-starter-activemq</artifactId>  
+        </dependency> 
 		 <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -156,6 +158,16 @@
 			<resource>
 				<directory>${basedir}/src/main/resources</directory>
 			</resource>
+			<!-- 打包时将jsp文件拷贝到META-INF目录下-->  
+            <resource>  
+                <!-- 指定resources插件处理哪个目录下的资源文件 -->  
+                <directory>src/main/webapp</directory>  
+                <!--注意此次必须要放在此目录下才能被访问到-->  
+                <targetPath>META-INF/resources</targetPath>  
+                <includes>  
+                    <include>**/**</include>  
+                </includes>  
+            </resource> 
 		</resources>
 		<plugins>
 			<plugin>
@@ -177,6 +189,7 @@
                 <configuration>
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
+                    <skipDockerBuild>false</skipDockerBuild>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -184,6 +197,14 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+                    <exposes>
+                        <expose>8080</expose>
+                    </exposes>
+                     <cmd>["java", "-jar",,"-Djava.security.egd=file:/dev/./urandom","/${project.build.finalName}.jar"]</cmd>
+                    <image>springboot/ssr:${project.artifactId}</image>
+                    <newName>springboot/ssr</newName>
+                    <forceTags>true</forceTags>
+                    <pushImage>false</pushImage>
                 </configuration>
             </plugin>
 		</plugins>

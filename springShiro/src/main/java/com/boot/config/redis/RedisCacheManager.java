@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisCacheManager implements CacheManager{
 	
-	@Resource
+	@Resource(name="redisTemplate")
 	private RedisTemplate<String,Object> redisTemplate;
 
 	@Override
